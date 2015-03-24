@@ -12,8 +12,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.sql.DataSource;
 import org.apache.struts.action.ActionForm;
 
@@ -38,12 +36,11 @@ public class EmployeModel implements IEmployeModel {
     }
 
     @Override
-    public void deleteEmploye(String username)  throws ModelException {
+    public void deleteEmploye(String username) throws ModelException {
         try {
             String user = null;
-            Connection conn = null;
-            Statement stmt = null;
-            ResultSet rs = null;
+            Connection conn;
+            Statement stmt;
 
             conn = this.getConnection();
             stmt = conn.createStatement();
@@ -53,15 +50,9 @@ public class EmployeModel implements IEmployeModel {
 
             boolean execute = stmt.execute(sqlString.toString());
 
-            if (rs != null) {
-                rs.close();
-            }
-            if (stmt != null) {
-                stmt.close();
-            }
-            if (conn != null) {
-                conn.close();
-            }
+            stmt.close();
+            conn.close();
+
         } catch (SQLException ex) {
             throw new ModelException(ex.getMessage());
         }
@@ -72,9 +63,8 @@ public class EmployeModel implements IEmployeModel {
     public void insertEmploye(ActionForm form) throws ModelException {
         try {
             String user = null;
-            Connection conn = null;
-            Statement stmt = null;
-            ResultSet rs = null;
+            Connection conn;
+            Statement stmt;
 
             EmployeForm eForm = (EmployeForm) form;
             conn = this.getConnection();
@@ -92,22 +82,16 @@ public class EmployeModel implements IEmployeModel {
 
             stmt.execute(sqlString.toString());
 
-            if (rs != null) {
-                rs.close();
-            }
-            if (stmt != null) {
-                stmt.close();
-            }
-            if (conn != null) {
-                conn.close();
-            }
+            stmt.close();
+            conn.close();
+
         } catch (SQLException ex) {
-            Logger.getLogger(EmployeModel.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ModelException(ex.getMessage());
         }
     }
 
     @Override
-    public void updateUser(ActionForm form)  throws ModelException {
+    public void updateUser(ActionForm form) throws ModelException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -117,14 +101,13 @@ public class EmployeModel implements IEmployeModel {
     }
 
     @Override
-    public String getUser(String username, String password)  throws ModelException {
-        
-        String user = null;
-        Connection conn = null;
-        Statement stmt = null;
-        ResultSet rs = null;
+    public String getUser(String username, String password) throws ModelException {
 
         try {
+            String user = null;
+            Connection conn;
+            Statement stmt;
+            ResultSet rs;
 
             conn = this.getConnection();
             stmt = conn.createStatement();
@@ -143,48 +126,31 @@ public class EmployeModel implements IEmployeModel {
 
                 System.err.println("---->Utilisateur non trouve<----");
             }
-        } catch (SQLException e) {
-            System.err.println(e.getMessage());
-        } finally {
-            if (rs != null) {
-                try {
-                    rs.close();
-                } catch (SQLException sqle) {
-                    System.err.println(sqle.getMessage());
-                }
-            }
-            if (stmt != null) {
-                try {
-                    stmt.close();
-                } catch (SQLException sqle) {
-                    System.err.println(sqle.getMessage());
-                }
-            }
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException sqle) {
-                    System.err.println(sqle.getMessage());
-                }
-            }
+
+            rs.close();
+            stmt.close();
+            conn.close();
+
+            return user;
+        } catch (SQLException ex) {
+            throw new ModelException(ex.getMessage());
         }
-        return user;
     }
 
     @Override
-    public ArrayList getEmployes()  throws ModelException {
-        Employe employe;
-        ArrayList employes = new ArrayList();
-        Connection conn = null;
-        Statement stmt = null;
-        ResultSet rs = null;
-
+    public ArrayList getEmployes() throws ModelException {
         try {
+            Employe employe;
+            ArrayList employes = new ArrayList();
+            Connection conn;
+            Statement stmt;
+            ResultSet rs;
+
             conn = this.getConnection();
             stmt = conn.createStatement();
             rs = stmt.executeQuery("select * from employes, roles, "
-                            + "services where employes.roleid=roles.roleid "
-                            + "and employes.depid=services.depid");
+                    + "services where employes.roleid=roles.roleid "
+                    + "and employes.depid=services.depid");
 
             while (rs.next()) {
                 employe = new Employe();
@@ -203,31 +169,14 @@ public class EmployeModel implements IEmployeModel {
                 System.err.println("Username : " + employe.getUsername()
                         + " Department : " + employe.getDepartment());
             }
-        } catch (SQLException e) {
-            System.err.println(e.getMessage());
-        } finally {
-            if (rs != null) {
-                try {
-                    rs.close();
-                } catch (SQLException sqle) {
-                    System.err.println(sqle.getMessage());
-                }
-            }
-            if (stmt != null) {
-                try {
-                    stmt.close();
-                } catch (SQLException sqle) {
-                    System.err.println(sqle.getMessage());
-                }
-            }
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException sqle) {
-                    System.err.println(sqle.getMessage());
-                }
-            }
+
+            rs.close();
+            stmt.close();
+            conn.close();
+
+            return employes;
+        } catch (SQLException ex) {
+            throw new ModelException(ex.getMessage());
         }
-        return employes;
     }
 }
