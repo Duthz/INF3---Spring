@@ -38,8 +38,7 @@ public class EmployeModel implements IEmployeModel {
     }
 
     @Override
-    public void deleteEmploye(String username) {
-
+    public void deleteEmploye(String username)  throws ModelException {
         try {
             String user = null;
             Connection conn = null;
@@ -49,33 +48,28 @@ public class EmployeModel implements IEmployeModel {
             conn = this.getConnection();
             stmt = conn.createStatement();
 
-            StringBuilder sqlString
-                    = new StringBuilder("delete from employes where username='");
+            StringBuilder sqlString = new StringBuilder("delete from employes where username='");
             sqlString.append(username).append("'");
 
             boolean execute = stmt.execute(sqlString.toString());
 
             if (rs != null) {
-
                 rs.close();
-
             }
             if (stmt != null) {
-
                 stmt.close();
             }
             if (conn != null) {
-
                 conn.close();
             }
         } catch (SQLException ex) {
-            Logger.getLogger(EmployeModel.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ModelException(ex.getMessage());
         }
 
     }
 
     @Override
-    public void insertEmploye(ActionForm form) {
+    public void insertEmploye(ActionForm form) throws ModelException {
         try {
             String user = null;
             Connection conn = null;
@@ -86,8 +80,7 @@ public class EmployeModel implements IEmployeModel {
             conn = this.getConnection();
             stmt = conn.createStatement();
 
-            StringBuilder sqlString
-                    = new StringBuilder("insert into employes values ('");
+            StringBuilder sqlString = new StringBuilder("insert into employes values ('");
 
             sqlString.append(eForm.getUsername()).append("', ");
             sqlString.append("'").append(eForm.getPassword()).append("', ");
@@ -100,36 +93,32 @@ public class EmployeModel implements IEmployeModel {
             stmt.execute(sqlString.toString());
 
             if (rs != null) {
-
                 rs.close();
             }
             if (stmt != null) {
-
                 stmt.close();
             }
             if (conn != null) {
-
                 conn.close();
             }
         } catch (SQLException ex) {
             Logger.getLogger(EmployeModel.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
 
     @Override
-    public void updateUser(ActionForm form) {
+    public void updateUser(ActionForm form)  throws ModelException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public ActionForm buildEmployeForm(String username) throws Exception {
+    public ActionForm buildEmployeForm(String username) throws ModelException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public String getUser(String username, String password) {
-
+    public String getUser(String username, String password)  throws ModelException {
+        
         String user = null;
         Connection conn = null;
         Statement stmt = null;
@@ -155,37 +144,26 @@ public class EmployeModel implements IEmployeModel {
                 System.err.println("---->Utilisateur non trouve<----");
             }
         } catch (SQLException e) {
-
             System.err.println(e.getMessage());
         } finally {
-
             if (rs != null) {
-
                 try {
-
                     rs.close();
                 } catch (SQLException sqle) {
-
                     System.err.println(sqle.getMessage());
                 }
             }
             if (stmt != null) {
-
                 try {
-
                     stmt.close();
                 } catch (SQLException sqle) {
-
                     System.err.println(sqle.getMessage());
                 }
             }
             if (conn != null) {
-
                 try {
-
                     conn.close();
                 } catch (SQLException sqle) {
-
                     System.err.println(sqle.getMessage());
                 }
             }
@@ -194,8 +172,7 @@ public class EmployeModel implements IEmployeModel {
     }
 
     @Override
-    public ArrayList getEmployes() {
-
+    public ArrayList getEmployes()  throws ModelException {
         Employe employe;
         ArrayList employes = new ArrayList();
         Connection conn = null;
@@ -203,16 +180,13 @@ public class EmployeModel implements IEmployeModel {
         ResultSet rs = null;
 
         try {
-
             conn = this.getConnection();
             stmt = conn.createStatement();
-            rs
-                    = stmt.executeQuery("select * from employes, roles, "
+            rs = stmt.executeQuery("select * from employes, roles, "
                             + "services where employes.roleid=roles.roleid "
                             + "and employes.depid=services.depid");
 
             while (rs.next()) {
-
                 employe = new Employe();
 
                 employe.setUsername(rs.getString("username"));
@@ -230,43 +204,30 @@ public class EmployeModel implements IEmployeModel {
                         + " Department : " + employe.getDepartment());
             }
         } catch (SQLException e) {
-
             System.err.println(e.getMessage());
         } finally {
-
             if (rs != null) {
-
                 try {
-
                     rs.close();
                 } catch (SQLException sqle) {
-
                     System.err.println(sqle.getMessage());
                 }
             }
             if (stmt != null) {
-
                 try {
-
                     stmt.close();
                 } catch (SQLException sqle) {
-
                     System.err.println(sqle.getMessage());
                 }
             }
             if (conn != null) {
-
                 try {
-
                     conn.close();
                 } catch (SQLException sqle) {
-
                     System.err.println(sqle.getMessage());
                 }
             }
         }
-
         return employes;
     }
-
 }

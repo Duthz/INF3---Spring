@@ -7,6 +7,7 @@ package com.myapp.struts.action;
 
 import com.myapp.struts.formbean.LoginForm;
 import com.myapp.struts.model.IEmployeModel;
+import com.myapp.struts.model.ModelException;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
@@ -197,7 +198,7 @@ public class EmployeAction extends SuperAction {
             ActionForm form,
             HttpServletRequest request,
             HttpServletResponse response)
-            throws IOException, ServletException {
+            throws IOException, ServletException, ModelException {
 
         IEmployeModel model = (IEmployeModel) super.getModel(MODEL_EMPLOYE);
         // Default target to success
@@ -244,7 +245,7 @@ public class EmployeAction extends SuperAction {
             ActionForm form,
             HttpServletRequest request,
             HttpServletResponse response)
-            throws IOException, ServletException {
+            throws IOException, ServletException, ModelException {
 
         IEmployeModel model = (IEmployeModel) super.getModel(MODEL_EMPLOYE);
         String user;

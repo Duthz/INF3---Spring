@@ -17,31 +17,34 @@ public interface IEmployeModel extends IModel{
     /**
      * Insère un employé dans la base de données
      * @param form
+     * @throws com.myapp.struts.model.ModelException
      */
-    public void insertEmploye(ActionForm form);
+    public void insertEmploye(ActionForm form) throws ModelException;
     
     
     /**
      * Supprime un employé
      * @param username Nom de l'employé à supprimer
+     * @throws com.myapp.struts.model.ModelException
      */
-    public void deleteEmploye(String username);
+    public void deleteEmploye(String username) throws ModelException;
     
     
     /**
      * Mets à jours les données d'un user
      * @param form 
+     * @throws com.myapp.struts.model.ModelException 
      */
-      public void updateUser(ActionForm form);
+      public void updateUser(ActionForm form) throws ModelException;
       
       
       /**
        * 
        * @param username
-       * @return
-       * @throws Exception 
+       * @return 
+     * @throws com.myapp.struts.model.ModelException 
        */
-        public ActionForm buildEmployeForm(String username) throws Exception;
+        public ActionForm buildEmployeForm(String username)  throws ModelException;
 
 
         /**
@@ -49,14 +52,16 @@ public interface IEmployeModel extends IModel{
          * @param username
          * @param password
          * @return 
+     * @throws com.myapp.struts.model.ModelException 
          */
-        public  String getUser(String username, String password);
+        public  String getUser(String username, String password) throws ModelException;
         
         
         /**
          * 
          * @return 
+     * @throws com.myapp.struts.model.ModelException 
          */
-        public  ArrayList getEmployes();
+        public  ArrayList getEmployes() throws ModelException;
 
 }
