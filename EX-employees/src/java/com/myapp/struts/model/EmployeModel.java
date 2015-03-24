@@ -8,13 +8,13 @@ package com.myapp.struts.model;
 import com.myapp.struts.bean.Employe;
 import com.myapp.struts.formbean.EmployeForm;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.sql.DataSource;
 import org.apache.struts.action.ActionForm;
 
 /**
@@ -22,6 +22,20 @@ import org.apache.struts.action.ActionForm;
  * @author Arles Mathieu
  */
 public class EmployeModel implements IEmployeModel {
+
+    private DataSource datasource;
+
+    public DataSource getDatasource() {
+        return datasource;
+    }
+
+    public void setDatasource(DataSource datasource) {
+        this.datasource = datasource;
+    }
+
+    private Connection getConnection() throws SQLException {
+        return this.getDatasource().getConnection();
+    }
 
     @Override
     public void deleteEmploye(String username) {
@@ -32,8 +46,7 @@ public class EmployeModel implements IEmployeModel {
             Statement stmt = null;
             ResultSet rs = null;
 
-            Class.forName("org.apache.derby.jdbc.ClientDriver");
-            conn = DriverManager.getConnection("jdbc:derby://localhost:1527/sample", "app", "app");
+            conn = this.getConnection();
             stmt = conn.createStatement();
 
             StringBuilder sqlString
@@ -55,8 +68,6 @@ public class EmployeModel implements IEmployeModel {
 
                 conn.close();
             }
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(EmployeModel.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(EmployeModel.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -72,8 +83,7 @@ public class EmployeModel implements IEmployeModel {
             ResultSet rs = null;
 
             EmployeForm eForm = (EmployeForm) form;
-            Class.forName("org.apache.derby.jdbc.ClientDriver");
-            conn = DriverManager.getConnection("jdbc:derby://localhost:1527/sample", "app", "app");
+            conn = this.getConnection();
             stmt = conn.createStatement();
 
             StringBuilder sqlString
@@ -101,8 +111,6 @@ public class EmployeModel implements IEmployeModel {
 
                 conn.close();
             }
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(EmployeModel.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(EmployeModel.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -129,8 +137,7 @@ public class EmployeModel implements IEmployeModel {
 
         try {
 
-            Class.forName("org.apache.derby.jdbc.ClientDriver");
-            conn = DriverManager.getConnection("jdbc:derby://localhost:1527/sample", "app", "app");
+            conn = this.getConnection();
             stmt = conn.createStatement();
             rs = stmt.executeQuery("select * from employes where username=\'"
                     + username + "' "
@@ -147,7 +154,7 @@ public class EmployeModel implements IEmployeModel {
 
                 System.err.println("---->Utilisateur non trouve<----");
             }
-        } catch (ClassNotFoundException | SQLException e) {
+        } catch (SQLException e) {
 
             System.err.println(e.getMessage());
         } finally {
@@ -197,8 +204,7 @@ public class EmployeModel implements IEmployeModel {
 
         try {
 
-            Class.forName("org.apache.derby.jdbc.ClientDriver");
-            conn = DriverManager.getConnection("jdbc:derby://localhost:1527/sample", "app", "app");
+            conn = this.getConnection();
             stmt = conn.createStatement();
             rs
                     = stmt.executeQuery("select * from employes, roles, "
@@ -223,7 +229,7 @@ public class EmployeModel implements IEmployeModel {
                 System.err.println("Username : " + employe.getUsername()
                         + " Department : " + employe.getDepartment());
             }
-        } catch (ClassNotFoundException | SQLException e) {
+        } catch (SQLException e) {
 
             System.err.println(e.getMessage());
         } finally {
