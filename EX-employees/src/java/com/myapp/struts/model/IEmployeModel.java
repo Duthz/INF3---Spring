@@ -13,7 +13,7 @@ import org.apache.struts.action.ActionForm;
  *
  * @author Arles Mathieu
  */
-public interface IEmployeModel extends IModel{
+public interface IEmployeModel extends Model{
     
     /**
      * Insère un employé dans la base de données

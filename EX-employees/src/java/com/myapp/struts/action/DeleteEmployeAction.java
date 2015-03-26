@@ -25,7 +25,7 @@ public class DeleteEmployeAction extends SuperAction {
     HttpServletResponse response)
     throws IOException, ServletException {
       
-              IEmployeModel model = (IEmployeModel) super.getIModel();
+              IEmployeModel model = (IEmployeModel) super.getModel();
 
 
     // Cible par defaut en cas de succ�s

@@ -24,11 +24,13 @@
     <action path="/index" type="org.apache.struts.actions.ForwardAction"
         parameter="tile.Login" />
     
+    
     <action path="/addemploye" type="org.apache.struts.actions.ForwardAction"
         parameter="tile.AddEmployee" />
     
+    <!-- com.myapp.struts.action.LoginAction-->
     <action path="/Login"
-      type="com.myapp.struts.action.LoginAction"
+      type="org.springframework.web.struts.DelegatingActionProxy"
       validate="true"
       input="tile.Login"
       name="loginForm"
@@ -36,14 +38,16 @@
       <forward name="success" path="/EmployeListe.do"/>
     </action>
 
+    <!--com.myapp.struts.action.EmployeListeAction -->
     <action path="/EmployeListe"
-      type="com.myapp.struts.action.EmployeListeAction"
+      type="org.springframework.web.struts.DelegatingActionProxy"
       scope="request" >
       <forward name="success" path="tile.ListEmployee"/>
     </action>
 
+    <!--com.myapp.struts.action.AddEmployeAction -->
     <action path="/Add"
-      type="com.myapp.struts.action.AddEmployeAction"
+      type="org.springframework.web.struts.DelegatingActionProxy"
       name="employeForm"
       scope="request"
       input="tile.AddEmployee"
@@ -53,8 +57,9 @@
       <forward name="error" path="tile.AddEmployee"/>
     </action>
 
+    <!--com.myapp.struts.action.GetEmployeAction -->
     <action path="/Edit"
-      type="com.myapp.struts.action.GetEmployeAction"
+      type="org.springframework.web.struts.DelegatingActionProxy"
       name="employeForm"
       scope="request"
       validate="false" >
@@ -62,8 +67,9 @@
       <forward name="error" path="/EmployeListe.do"/>
     </action>
 
+    <!--com.myapp.struts.action.EditEmployeAction -->
     <action path="/EditEmploye"
-      type="com.myapp.struts.action.EditEmployeAction"
+      type="org.springframework.web.struts.DelegatingActionProxy"
       name="employeForm"
       scope="request"
       input="tile.EditEmployee"
@@ -73,8 +79,10 @@
       <forward name="error" path="tile.EditEmployee"/>
     </action>
 
+
+    <!-- com.myapp.struts.action.DeleteEmployeAction -->
     <action path="/Delete"
-      type="com.myapp.struts.action.DeleteEmployeAction"
+      type="org.springframework.web.struts.DelegatingActionProxy"
       scope="request"
       validate="false" >
       <forward name="success" path="/EmployeListe.do"/>

@@ -18,6 +18,11 @@ public class EmployeForm extends ActionForm {
   protected String depid;
   protected String roleid;
 
+    public EmployeForm() {
+    }
+
+  
+  
   
   public EmployeForm(Employe e) {
       this.username = e.getUsername();

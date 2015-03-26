@@ -7,17 +7,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessages;
 import org.apache.struts.action.ActionMessage;
 
-import java.sql.DriverManager;
-import java.sql.Connection;
-import java.sql.Statement;
-import java.sql.ResultSet;
 
 
 public class EditEmployeAction extends SuperAction {
@@ -29,7 +24,7 @@ public class EditEmployeAction extends SuperAction {
     HttpServletResponse response)
     throws IOException, ServletException {
       
-    IEmployeModel model = (IEmployeModel) super.getIModel();
+    IEmployeModel model = (IEmployeModel) super.getModel();
 
     // Cible par defaut en cas de succes
     String target = "success";

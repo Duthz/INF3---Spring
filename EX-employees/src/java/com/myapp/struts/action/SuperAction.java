@@ -5,7 +5,7 @@
  */
 package com.myapp.struts.action;
 
-import com.myapp.struts.model.IModel;
+import com.myapp.struts.model.Model;
 import org.apache.struts.action.Action;
 
 /**
@@ -14,14 +14,15 @@ import org.apache.struts.action.Action;
  */
 public class SuperAction extends Action {
 
-    private IModel iModel = null;
+    private Model model = null;
 
-    public void setIModel(IModel m) {
-        this.iModel = m;
+    public Model getModel() {
+        return model;
     }
 
-    public IModel getIModel() {
-        return this.iModel;
-
+    public void setModel(Model model) {
+        this.model = model;
     }
+
+    
 }

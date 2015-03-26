@@ -21,13 +21,18 @@
         <property name="password" value="app" />
         <property name="maxActive" value="10" />
     </bean>
-    <bean id="dao" class="com.myapp.model.struts.EmployeModel" singleton="true">
+    <bean id="dao" class="com.myapp.struts.model.EmployeModel" singleton="true">
         <property name="datasource"> <ref bean="dataSource"/></property>
     </bean>
     <bean id="abstractAction" abstract="true">
-        <property name="iModel"> <ref bean="dao"/></property>
+        <property name="model"> <ref bean="dao"/></property>
     </bean>
-    <bean name="/Lookup" parent="abstractAction" class="com.myapp.struts.action.EmployeeAction"/>
+    <bean name="/Login" parent="abstractAction" class="com.myapp.struts.action.LoginAction"/>
+    <bean name="/EmployeListe" parent="abstractAction" class="com.myapp.struts.action.EmployeListeAction"/>
+    <bean name="/Edit" parent="abstractAction" class="com.myapp.struts.action.GetEmployeAction"/>
+    <bean name="/EditEmploye" parent="abstractAction" class="com.myapp.struts.action.EditEmployeAction"/>
+    <bean name="/Delete" parent="abstractAction" class="com.myapp.struts.action.DeleteEmployeAction"/>
+    <bean name="/Add" parent="abstractAction" class="com.myapp.struts.action.AddEmployeAction"/>
     
     
 </beans>

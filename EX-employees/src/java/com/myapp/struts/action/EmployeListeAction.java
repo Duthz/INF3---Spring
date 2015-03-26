@@ -24,7 +24,7 @@ public class EmployeListeAction extends SuperAction {
     HttpServletResponse response)
     throws IOException, ServletException, ModelException {
     
-    IEmployeModel model = (IEmployeModel) super.getIModel();
+    IEmployeModel model = (IEmployeModel) super.getModel();
 
     // Default target to success
     String target = "success";

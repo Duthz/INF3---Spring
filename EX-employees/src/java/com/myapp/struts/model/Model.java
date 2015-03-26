@@ -9,6 +9,6 @@ package com.myapp.struts.model;
  *
  * @author Arles Mathieu
  */
-public interface IModel {
+public interface Model {
     
 }
