@@ -1,6 +1,7 @@
 package com.myapp.struts.action;
 
 import com.myapp.struts.formbean.EmployeForm;
+import com.myapp.struts.model.IEmployeModel;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -19,61 +20,7 @@ import java.sql.Statement;
 import java.sql.ResultSet;
 
 
-public class GetEmployeAction extends Action {
-
-  protected ActionForm buildEmployeForm(String username) throws Exception {
-
-    String user = null;
-    Connection conn = null;
-    Statement stmt = null;
-    ResultSet rs = null;
-    EmployeForm form = null;
-
-
-    try {
-
-      Class.forName ("org.apache.derby.jdbc.ClientDriver");
-      conn = DriverManager.getConnection("jdbc:derby://localhost:1527/sample", "app", "app");
-      stmt = conn.createStatement();
-      rs = stmt.executeQuery("select * from employes where username=\'"
-        + username + "'");
-
-      if ( rs.next() ) {
-
-        form = new EmployeForm();
-
-        form.setUsername(rs.getString("username"));
-        form.setPassword(rs.getString("password"));
-        form.setDepid(rs.getString("depid"));
-        form.setRoleid(rs.getString("roleid"));
-        String name = rs.getString("name");
-        System.err.println("---->" + name + "<----");
-        form.setName(name);
-        form.setPhone(rs.getString("phone"));
-        form.setEmail(rs.getString("email"));
-      }
-      else {
-
-        throw new Exception("Employe " + username + " non trouve!");
-      }
-    }
-    finally {
-
-      if (rs != null) {
-
-          rs.close();
-      }
-      if (stmt != null) {
-
-          stmt.close();
-      }
-      if (conn != null) {
-
-          conn.close();
-      }
-    }
-    return form;
-  }
+public class GetEmployeAction extends SuperAction {
 
   @Override
   public ActionForward execute(ActionMapping mapping,
@@ -81,6 +28,8 @@ public class GetEmployeAction extends Action {
     HttpServletRequest request,
     HttpServletResponse response)
     throws IOException, ServletException {
+    
+    IEmployeModel model = (IEmployeModel) super.getIModel();
 
     // Cible par defaut en cas de succes
     String target = "success";
@@ -112,7 +61,7 @@ public class GetEmployeAction extends Action {
 
     try {
 
-      form = buildEmployeForm(request.getParameter("username"));
+      form = model.buildEmployeForm(request.getParameter("username"));
       
       if ( form == null ) {
       

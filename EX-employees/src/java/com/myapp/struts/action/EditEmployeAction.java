@@ -1,6 +1,7 @@
 package com.myapp.struts.action;
 
 import com.myapp.struts.formbean.EmployeForm;
+import com.myapp.struts.model.IEmployeModel;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -19,65 +20,7 @@ import java.sql.Statement;
 import java.sql.ResultSet;
 
 
-public class EditEmployeAction extends Action {
-
-  protected void updateUser(ActionForm form)
-    throws Exception {
-
-    String user = null;
-    Connection conn = null;
-    Statement stmt = null;
-    ResultSet rs = null;
-
-    
-
-    try {
-
-      EmployeForm eForm = (EmployeForm)form;
-      Class.forName ("org.apache.derby.jdbc.ClientDriver");
-      conn = DriverManager.getConnection("jdbc:derby://localhost:1527/sample", "app", "app");
-      stmt = conn.createStatement();
-
-      StringBuilder sqlString =
-        new StringBuilder("update employes set password='");
-
-      sqlString.append(eForm.getPassword());
-      sqlString.append("', ");
-      sqlString.append("roleid=");
-      sqlString.append(eForm.getRoleid());
-      sqlString.append(", ");
-      sqlString.append("name='");
-      sqlString.append(eForm.getName());
-      sqlString.append("', ");
-      sqlString.append("phone='");
-      sqlString.append(eForm.getPhone());
-      sqlString.append("', ");
-      sqlString.append("email='");
-      sqlString.append(eForm.getEmail());
-      sqlString.append("', ");
-      sqlString.append("depid=");
-      sqlString.append(eForm.getDepid());
-      sqlString.append(" where username='");
-      sqlString.append(eForm.getUsername());
-      sqlString.append("'");
-      stmt.execute(sqlString.toString());
-    }
-    finally {
-
-      if (rs != null) {
-
-          rs.close();
-      }
-      if (stmt != null) {
-
-          stmt.close();
-      }
-      if (conn != null) {
-
-          conn.close();
-      }
-    }
-  }
+public class EditEmployeAction extends SuperAction {
 
   @Override
   public ActionForward execute(ActionMapping mapping,
@@ -85,6 +28,8 @@ public class EditEmployeAction extends Action {
     HttpServletRequest request,
     HttpServletResponse response)
     throws IOException, ServletException {
+      
+    IEmployeModel model = (IEmployeModel) super.getIModel();
 
     // Cible par defaut en cas de succes
     String target = "success";
@@ -119,7 +64,7 @@ public class EditEmployeAction extends Action {
 
     try {
 
-        updateUser(form);
+        model.updateUser(form);
     }
     catch (Exception e) {
 
