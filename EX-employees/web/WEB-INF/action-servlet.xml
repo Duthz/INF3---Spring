@@ -25,7 +25,7 @@
         <property name="datasource"> <ref bean="dataSource"/></property>
     </bean>
     <bean id="abstractAction" abstract="true">
-        <property name="model"> <ref bean="dao"/></property>
+        <property name="iModel"> <ref bean="dao"/></property>
     </bean>
     <bean name="/Lookup" parent="abstractAction" class="com.myapp.struts.action.EmployeeAction"/>
     

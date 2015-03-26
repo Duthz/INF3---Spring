@@ -5,26 +5,23 @@
  */
 package com.myapp.struts.action;
 
-import com.myapp.struts.model.EmployeModel;
 import com.myapp.struts.model.IModel;
-import org.apache.struts.actions.DispatchAction;
+import org.apache.struts.action.Action;
 
 /**
  *
  * @author Arles Mathieu
  */
-public class SuperAction extends DispatchAction{
-    
-    public static final String MODEL_EMPLOYE = "modelEmploye";
-    
-    /**
-     * Retourne le model
-     * @param nom Nom du model
-     * @return 
-     */
-    public IModel getModel(String nom) {
-        if(nom.equals(MODEL_EMPLOYE))
-            return new EmployeModel();
-        return null;
+public class SuperAction extends Action {
+
+    private IModel iModel = null;
+
+    public void setIModel(IModel m) {
+        this.iModel = m;
+    }
+
+    public IModel getIModel() {
+        return this.iModel;
+
     }
 }
