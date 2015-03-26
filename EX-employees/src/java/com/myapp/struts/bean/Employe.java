@@ -2,92 +2,101 @@ package com.myapp.struts.bean;
 
 public class Employe {
 
-  protected String username;
-  protected String name;
-  protected String department;
-  protected String rolename;
-  protected String phone;
-  protected String email;
-  protected Integer depid;
-  protected Integer roleid;
+    protected String username;
+    protected String name;
+    protected String department;
+    protected String rolename;
+    protected String phone;
+    protected String email;
+    protected Integer depid;
+    protected Integer roleid;
+    protected String password;
 
-  public void setUsername(String username) {
+    public String getPassword() {
+        return password;
+    }
 
-    this.username = username;
-  }
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-  public String getUsername() {
+    public void setUsername(String username) {
 
-    return username;
-  }
+        this.username = username;
+    }
 
-  public void setName(String name) {
+    public String getUsername() {
 
-    this.name = name;
-  }
+        return username;
+    }
 
-  public String getName() {
+    public void setName(String name) {
 
-    return name;
-  }
+        this.name = name;
+    }
 
-  public void setDepartment(String department) {
+    public String getName() {
 
-    this.department = department;
-  }
+        return name;
+    }
 
-  public String getDepartment() {
+    public void setDepartment(String department) {
 
-    return this.department;
-  }
+        this.department = department;
+    }
 
-  public void setRolename(String rolename) {
+    public String getDepartment() {
 
-    this.rolename = rolename;
-  }
+        return this.department;
+    }
 
-  public String getRolename() {
+    public void setRolename(String rolename) {
 
-    return rolename;
-  }
+        this.rolename = rolename;
+    }
 
-  public void setPhone(String phone) {
+    public String getRolename() {
 
-    this.phone = phone;
-  }
+        return rolename;
+    }
 
-  public String getPhone() {
+    public void setPhone(String phone) {
 
-    return phone;
-  }
+        this.phone = phone;
+    }
 
-  public void setEmail(String email) {
+    public String getPhone() {
 
-    this.email = email;
-  }
+        return phone;
+    }
 
-  public String getEmail() {
+    public void setEmail(String email) {
 
-    return email;
-  }
+        this.email = email;
+    }
 
-  public void setDepid(Integer depid) {
+    public String getEmail() {
 
-    this.depid = depid;
-  }
+        return email;
+    }
 
-  public Integer getDepid() {
+    public void setDepid(Integer depid) {
 
-    return depid;
-  }
+        this.depid = depid;
+    }
 
-  public void setRoleid(Integer roleid) {
+    public Integer getDepid() {
 
-    this.roleid = roleid;
-  }
+        return depid;
+    }
 
-  public Integer getRoleid() {
+    public void setRoleid(Integer roleid) {
 
-    return roleid;
-  }
+        this.roleid = roleid;
+    }
+
+    public Integer getRoleid() {
+
+        return roleid;
+    }
 }

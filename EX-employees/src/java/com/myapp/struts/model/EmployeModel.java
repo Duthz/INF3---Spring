@@ -8,12 +8,14 @@ package com.myapp.struts.model;
 import com.myapp.struts.bean.Employe;
 import com.myapp.struts.formbean.EmployeForm;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.sql.DataSource;
-import org.apache.struts.action.ActionForm;
 
 /**
  *
@@ -60,25 +62,24 @@ public class EmployeModel implements IEmployeModel {
     }
 
     @Override
-    public void insertEmploye(ActionForm form) throws ModelException {
+    public void insertEmploye(Employe e) throws ModelException {
         try {
             String user = null;
             Connection conn;
             Statement stmt;
 
-            EmployeForm eForm = (EmployeForm) form;
             conn = this.getConnection();
             stmt = conn.createStatement();
 
             StringBuilder sqlString = new StringBuilder("insert into employes values ('");
 
-            sqlString.append(eForm.getUsername()).append("', ");
-            sqlString.append("'").append(eForm.getPassword()).append("', ");
-            sqlString.append("'").append(eForm.getName()).append("', ");
-            sqlString.append(eForm.getRoleid()).append(", ");
-            sqlString.append("'").append(eForm.getPhone()).append("', ");
-            sqlString.append("'").append(eForm.getEmail()).append("', ");
-            sqlString.append(eForm.getDepid()).append(")");
+            sqlString.append(e.getUsername()).append("', ");
+            sqlString.append("'").append(e.getPassword()).append("', ");
+            sqlString.append("'").append(e.getName()).append("', ");
+            sqlString.append(e.getRoleid()).append(", ");
+            sqlString.append("'").append(e.getPhone()).append("', ");
+            sqlString.append("'").append(e.getEmail()).append("', ");
+            sqlString.append(e.getDepid()).append(")");
 
             stmt.execute(sqlString.toString());
 
@@ -91,13 +92,91 @@ public class EmployeModel implements IEmployeModel {
     }
 
     @Override
-    public void updateUser(ActionForm form) throws ModelException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void updateUser(Employe e) throws ModelException {
+
+        try {
+            String user = null;
+            Connection conn;
+            Statement stmt;
+
+            conn = this.getConnection();
+            stmt = conn.createStatement();
+
+            StringBuilder sqlString
+                    = new StringBuilder("update employes set password='");
+
+            sqlString.append(e.getPassword());
+            sqlString.append("', ");
+            sqlString.append("roleid=");
+            sqlString.append(e.getRoleid());
+            sqlString.append(", ");
+            sqlString.append("name='");
+            sqlString.append(e.getName());
+            sqlString.append("', ");
+            sqlString.append("phone='");
+            sqlString.append(e.getPhone());
+            sqlString.append("', ");
+            sqlString.append("email='");
+            sqlString.append(e.getEmail());
+            sqlString.append("', ");
+            sqlString.append("depid=");
+            sqlString.append(e.getDepid());
+            sqlString.append(" where username='");
+            sqlString.append(e.getUsername());
+            sqlString.append("'");
+            stmt.execute(sqlString.toString());
+
+            stmt.close();
+
+            conn.close();
+        } catch (SQLException ex) {
+            throw new ModelException(ex.getMessage());
+        }
+
     }
 
     @Override
-    public ActionForm buildEmployeForm(String username) throws ModelException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Employe getEmployeByUserName(String username) throws ModelException {
+        try {
+            String user = null;
+            Connection conn;
+            Statement stmt;
+            ResultSet rs;
+            Employe e;
+
+            conn = this.getConnection();
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery("select * from employes where username=\'"
+                    + username + "'");
+
+            if (rs.next()) {
+
+                e = new Employe();
+
+                e.setUsername(rs.getString("username"));
+                e.setPassword(rs.getString("password"));
+                e.setDepid(Integer.parseInt(rs.getString("depid")));
+                e.setRoleid(Integer.parseInt(rs.getString("roleid")));
+                String name = rs.getString("name");
+                System.err.println("---->" + name + "<----");
+                e.setName(name);
+                e.setPhone(rs.getString("phone"));
+                e.setEmail(rs.getString("email"));
+            } else {
+
+                throw new ModelException("Employe " + username + " non trouve!");
+            }
+
+            rs.close();
+
+            stmt.close();
+
+            conn.close();
+
+            return e;
+        } catch (SQLException ex) {
+            throw new ModelException(ex.getMessage());
+        }
     }
 
     @Override
