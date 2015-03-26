@@ -63,8 +63,8 @@ public class EditEmployeAction extends SuperAction {
     }
 
     try {
-
-        model.updateUser(form);
+        EmployeForm eForm = (EmployeForm) form;
+        model.updateUser(eForm.formToEmploye());
     }
     catch (Exception e) {
 

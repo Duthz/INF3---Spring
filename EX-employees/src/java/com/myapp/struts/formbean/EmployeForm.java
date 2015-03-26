@@ -1,5 +1,6 @@
 package com.myapp.struts.formbean;
 
+import com.myapp.struts.bean.Employe;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.apache.struts.action.ActionForm;
@@ -17,6 +18,17 @@ public class EmployeForm extends ActionForm {
   protected String depid;
   protected String roleid;
 
+  
+  public EmployeForm(Employe e) {
+      this.username = e.getUsername();
+      this.depid = String.valueOf(e.getDepid());
+      this.email = e.getEmail();
+      this.name = e.getName();
+      this.password = e.getPassword();
+      this.phone = e.getPhone();
+      this.roleid = String.valueOf(e.getRoleid());
+  }
+  
   public void setUsername(String username) {
 
     this.username = username;
@@ -143,5 +155,20 @@ public class EmployeForm extends ActionForm {
       errors.add("username", new ActionMessage("errors.username.required"));
     }
     return errors;
+  }
+  
+  
+  public Employe formToEmploye() {
+      Employe e = new Employe();
+      
+      e.setDepid(Integer.parseInt(depid));
+      e.setEmail(this.email);
+      e.setName(this.name);
+      e.setPassword(password);
+      e.setPhone(phone);
+      e.setUsername(username);
+      e.setRoleid(Integer.parseInt(roleid));
+      
+      return e;
   }
 }

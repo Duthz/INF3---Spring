@@ -61,7 +61,7 @@ public class GetEmployeAction extends SuperAction {
 
     try {
 
-      form = model.buildEmployeForm(request.getParameter("username"));
+      form = new EmployeForm(model.getEmployeByUserName(request.getParameter("username")));
       
       if ( form == null ) {
       

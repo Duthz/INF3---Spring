@@ -1,5 +1,6 @@
 package com.myapp.struts.action;
 
+import com.myapp.struts.formbean.EmployeForm;
 import com.myapp.struts.model.IEmployeModel;
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -52,8 +53,8 @@ public class AddEmployeAction extends SuperAction {
         }
 
         try {
-
-            model.insertEmploye(form);
+            EmployeForm eForm = (EmployeForm) form;
+            model.insertEmploye(eForm.formToEmploye());
         } catch (Exception e) {
 
             System.err.println("Setting target to error");
