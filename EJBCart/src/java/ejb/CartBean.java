@@ -19,8 +19,6 @@ public class CartBean implements CartBeanRemote {
     private String customerId;
     private Vector contents;
 
-    // Add business logic below. (Right-click in editor and choose
-    // "Insert Code > Add Business Method")
     @Override
     public void initialize(String person) throws BookException {
         if (person == null) {
@@ -71,6 +69,4 @@ public class CartBean implements CartBeanRemote {
     public void remove() {
         contents = null;
     }
-
-    
 }
