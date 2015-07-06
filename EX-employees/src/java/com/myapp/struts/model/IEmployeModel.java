@@ -6,7 +6,6 @@
 package com.myapp.struts.model;
 
 import bean.Employe;
-import ejb.ModelException;
 import java.util.List;
 
 /**
@@ -18,7 +17,7 @@ public interface IEmployeModel extends Model{
     /**
      * Insère un employé dans la base de données
      * @param e employé à insérer
-     * @throws ejb.ModelException
+     * @throws com.myapp.struts.model.ModelException
      */
     public void insertEmploye(Employe e) throws ModelException;
     
@@ -26,7 +25,6 @@ public interface IEmployeModel extends Model{
     /**
      * Supprime un employé
      * @param username Nom de l'employé à supprimer
-     * @throws ejb.ModelException
      */
     public void deleteEmploye(String username) throws ModelException;
     
@@ -34,7 +32,6 @@ public interface IEmployeModel extends Model{
     /**
      * Mets à jours les données d'un user
      * @param e employé à mettre à jours 
-     * @throws ejb.ModelException 
      */
       public void updateUser(Employe e) throws ModelException;
       
@@ -43,7 +40,6 @@ public interface IEmployeModel extends Model{
        * 
        * @param username
        * @return 
-     * @throws ejb.ModelException 
        */
         public Employe getEmployeByUserName(String username)  throws ModelException;
 
@@ -53,7 +49,6 @@ public interface IEmployeModel extends Model{
          * @param username
          * @param password
          * @return 
-     * @throws ejb.ModelException 
          */
         public  String getUser(String username, String password) throws ModelException;
         
@@ -61,7 +56,6 @@ public interface IEmployeModel extends Model{
         /**
          * 
          * @return 
-     * @throws ejb.ModelException 
          */
         public  List getEmployes() throws ModelException;
 

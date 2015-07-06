@@ -6,7 +6,6 @@
 package com.myapp.struts.model;
 
 import bean.Employe;
-import ejb.ModelException;
 import ejb.EmployeModelRemote;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -42,37 +41,38 @@ public class EmployeModel implements IEmployeModel {
     public void deleteEmploye(String username) throws ModelException {
         EmployeModelRemote employeModel = lookupEmployeModelRemote();
 
-        employeModel.deleteEmployee(datasource,username);
+        employeModel.deleteEmployee(username);
     }
 
     @Override
     public void insertEmploye(Employe e) throws ModelException {
         EmployeModelRemote employeModel = lookupEmployeModelRemote();
-        employeModel.insertEmployee(datasource,e);
+        employeModel.insertEmployee(e);
     }
 
     @Override
     public void updateUser(Employe e) throws ModelException {
         EmployeModelRemote employeModel = lookupEmployeModelRemote();
-        employeModel.updateEmployee(datasource,e);
+        employeModel.updateEmployee(e);
     }
 
     @Override
     public Employe getEmployeByUserName(String username) throws ModelException {
         EmployeModelRemote employeModel = lookupEmployeModelRemote();
-        return employeModel.getEmployeByUserName(datasource,username);
+        return employeModel.getEmployeByUserName(username);
     }
 
     @Override
     public String getUser(String username, String password) throws ModelException {
         EmployeModelRemote employeModel = lookupEmployeModelRemote();
-        return employeModel.getUser(datasource,username, password);
+        System.out.println(employeModel);
+        return employeModel.getUser(username, password);
     }
 
     @Override
     public List getEmployes() throws ModelException {
         EmployeModelRemote employeModel = lookupEmployeModelRemote();
-        return employeModel.getEmployes(datasource);
+        return employeModel.getEmployes();
     }
 
     private EmployeModelRemote lookupEmployeModelRemote() {

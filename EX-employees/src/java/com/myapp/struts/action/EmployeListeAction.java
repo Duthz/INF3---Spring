@@ -1,7 +1,8 @@
 package com.myapp.struts.action;
 
 import com.myapp.struts.model.IEmployeModel;
-import ejb.ModelException;
+import com.myapp.struts.model.ModelException;
+import ejb.ModelExceptionEJB;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -22,7 +23,7 @@ public class EmployeListeAction extends SuperAction {
     ActionForm form,
     HttpServletRequest request,
     HttpServletResponse response)
-    throws IOException, ServletException, ModelException {
+    throws IOException, ServletException, ModelExceptionEJB, ModelException {
     
     IEmployeModel model = (IEmployeModel) super.getModel();
 

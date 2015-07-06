@@ -7,6 +7,7 @@ package ejb;
 
 import bean.Employe;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -22,8 +23,19 @@ import javax.sql.DataSource;
 @Stateless
 public class EmployeModel implements EmployeModelRemote {
 
+    private final String DB = "jdbc:derby://localhost:1527/sample";
+    private final String PW = "app";
+    private final String USER = "app";
 
-
+    private Connection connexion() {
+        try {
+            Class.forName("org.apache.derby.jdbc.ClientDriver");
+            return DriverManager.getConnection(DB, USER, PW);
+        } catch (ClassNotFoundException | SQLException ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
 
     private Connection getConnection(DataSource datasource) throws SQLException {
         return datasource.getConnection();
@@ -32,16 +44,15 @@ public class EmployeModel implements EmployeModelRemote {
     /**
      *
      * @param employee the value of employee
-     * @throws ejb.ModelException
+     * @throws ejb.ModelExceptionEJB
      */
     @Override
-    public void insertEmployee(DataSource datasource, bean.Employe employee) throws ModelException {
+    public void insertEmployee(bean.Employe employee) throws ModelExceptionEJB {
         try {
             String user = null;
-            Connection conn;
+            Connection conn = this.connexion();
             Statement stmt;
 
-            conn = getConnection(datasource);
             stmt = conn.createStatement();
 
             StringBuilder sqlString = new StringBuilder("insert into employes values ('");
@@ -60,20 +71,19 @@ public class EmployeModel implements EmployeModelRemote {
             conn.close();
 
         } catch (SQLException ex) {
-            throw new ModelException(ex.getMessage());
+            throw new ModelExceptionEJB(ex.getMessage());
         }
     }
 
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
     @Override
-    public void deleteEmployee(DataSource datasource, String username) throws ModelException {
+    public void deleteEmployee(String username) throws ModelExceptionEJB {
         try {
             String user = null;
-            Connection conn;
+            Connection conn = this.connexion();
             Statement stmt;
 
-            conn = getConnection(datasource);
             stmt = conn.createStatement();
 
             StringBuilder sqlString = new StringBuilder("delete from employes where username='");
@@ -85,19 +95,18 @@ public class EmployeModel implements EmployeModelRemote {
             conn.close();
 
         } catch (SQLException ex) {
-            throw new ModelException(ex.getMessage());
+            throw new ModelExceptionEJB(ex.getMessage());
         }
     }
 
     @Override
-    public void updateEmployee( DataSource datasource, Employe employe) throws ModelException {
+    public void updateEmployee(Employe employe) throws ModelExceptionEJB {
 
         try {
             String user = null;
-            Connection conn;
+            Connection conn = connexion();
             Statement stmt;
 
-            conn = getConnection(datasource);
             stmt = conn.createStatement();
 
             StringBuilder sqlString
@@ -128,21 +137,20 @@ public class EmployeModel implements EmployeModelRemote {
 
             conn.close();
         } catch (SQLException ex) {
-            throw new ModelException(ex.getMessage());
+            throw new ModelExceptionEJB(ex.getMessage());
         }
 
     }
 
     @Override
-    public Employe getEmployeByUserName(DataSource datasource, String username) throws ModelException {
+    public Employe getEmployeByUserName(String username) throws ModelExceptionEJB {
         try {
             String user = null;
-            Connection conn;
+            Connection conn = connexion();
             Statement stmt;
             ResultSet rs;
             Employe e;
 
-            conn = getConnection(datasource);
             stmt = conn.createStatement();
             rs = stmt.executeQuery("select * from employes where username=\'"
                     + username + "'");
@@ -162,7 +170,7 @@ public class EmployeModel implements EmployeModelRemote {
                 e.setEmail(rs.getString("email"));
             } else {
 
-                throw new ModelException("Employe " + username + " non trouve!");
+                throw new ModelExceptionEJB("Employe " + username + " non trouve!");
             }
 
             rs.close();
@@ -173,20 +181,19 @@ public class EmployeModel implements EmployeModelRemote {
 
             return e;
         } catch (SQLException ex) {
-            throw new ModelException(ex.getMessage());
+            throw new ModelExceptionEJB(ex.getMessage());
         }
     }
 
     @Override
-    public String getUser(DataSource datasource, String username, String password) throws ModelException {
+    public String getUser(String username, String password) throws ModelExceptionEJB {
 
         try {
             String user = null;
-            Connection conn;
+            Connection conn = connexion();
             Statement stmt;
             ResultSet rs;
 
-            conn = getConnection(datasource);
             stmt = conn.createStatement();
             rs = stmt.executeQuery("select * from employes where username=\'"
                     + username + "' "
@@ -210,20 +217,19 @@ public class EmployeModel implements EmployeModelRemote {
 
             return user;
         } catch (SQLException ex) {
-            throw new ModelException(ex.getMessage());
+            throw new ModelExceptionEJB(ex.getMessage());
         }
     }
 
     @Override
-    public List getEmployes(DataSource datasource) throws ModelException {
+    public List getEmployes() throws ModelExceptionEJB {
         try {
             Employe employe;
             ArrayList employes = new ArrayList();
-            Connection conn;
+            Connection conn = connexion();
             Statement stmt;
             ResultSet rs;
 
-            conn = getConnection(datasource);
             stmt = conn.createStatement();
             rs = stmt.executeQuery("select * from employes, roles, "
                     + "services where employes.roleid=roles.roleid "
@@ -253,7 +259,7 @@ public class EmployeModel implements EmployeModelRemote {
 
             return employes;
         } catch (SQLException ex) {
-            throw new ModelException(ex.getMessage());
+            throw new ModelExceptionEJB(ex.getMessage());
         }
     }
 

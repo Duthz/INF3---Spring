@@ -8,7 +8,6 @@ package ejb;
 import bean.Employe;
 import java.util.List;
 import javax.ejb.Remote;
-import javax.sql.DataSource;
 
 /**
  *
@@ -17,17 +16,17 @@ import javax.sql.DataSource;
 @Remote
 public interface EmployeModelRemote {
 
-    void insertEmployee(DataSource datasource, Employe employee) throws ModelException;
+    void insertEmployee(Employe employee) throws ModelExceptionEJB;
 
-    void deleteEmployee(DataSource datasource, String username) throws ModelException;
+    void deleteEmployee(String username) throws ModelExceptionEJB;
 
-    void updateEmployee(DataSource datasource, Employe employe) throws ModelException;
+    void updateEmployee(Employe employe) throws ModelExceptionEJB;
 
-    Employe getEmployeByUserName( DataSource datasource,String username) throws ModelException;
+    Employe getEmployeByUserName(String username) throws ModelExceptionEJB;
 
-    String getUser( DataSource datasource,String username, String password) throws ModelException;
+    String getUser(String username, String password) throws ModelExceptionEJB;
 
-    List getEmployes(DataSource datasource) throws ModelException;
+    List getEmployes() throws ModelExceptionEJB;
     
     
 }

@@ -1,6 +1,8 @@
 package bean;
 
-public class Employe {
+import java.io.Serializable;
+
+public class Employe implements Serializable{
 
     protected String username;
     protected String name;
