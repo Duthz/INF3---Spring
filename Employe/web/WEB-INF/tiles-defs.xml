@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+ <!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 1.1//EN"
+       "http://jakarta.apache.org/struts/dtds/tiles-config_1_1.dtd">
+
+
+
+
+<tiles-definitions>
+
+
+      <!-- Page layout used as root for all pages. -->
+  <definition name="rootLayout" path="/tiles-layouts/rootLayout.jsp">
+    <put name="top_banner" value="/tiles-components/top_banner.jsp"/>
+    <put name="header" value="/tiles-components/header.jsp"/>
+    <put name="article" value="CHANGE-ME"/>
+    <put name="footer" value="/tiles-components/footer.jsp"/>
+  </definition>
+    
+
+  <!-- =======================================================  -->
+  <!-- Page definitions 					-->
+  <!-- =======================================================  -->
+
+  <!-- Login input page -->
+  <definition name="tile.Login" extends="rootLayout">
+    <put name="article" value="/login.jsp"/>
+  </definition>
+
+  <!-- Add Employee input page -->
+  <definition name="tile.AddEmployee" extends="rootLayout">
+    <put name="article" value="/addemploye.jsp"/>
+  </definition>
+  
+    <!-- Edit employee input page -->
+  <definition name="tile.EditEmployee" extends="rootLayout">
+    <put name="article" value="/editemploye.jsp"/>
+  </definition>
+  
+    <!-- Liste employee page -->
+  <definition name="tile.ListEmployee" extends="rootLayout">
+    <put name="article" value="/employeliste.jsp"/>
+  </definition>
+
+
+</tiles-definitions>

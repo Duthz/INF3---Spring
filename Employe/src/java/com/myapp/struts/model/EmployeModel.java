@@ -18,11 +18,14 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+
 /**
  *
  * @author Arles Mathieu
  */
 public class EmployeModel implements IEmployeModel {
+
+    EmployeModelRemote employeModel = lookupEmployeModelRemote();
 
     private DataSource datasource;
 
@@ -32,6 +35,7 @@ public class EmployeModel implements IEmployeModel {
 
     public void setDatasource(DataSource datasource) {
         this.datasource = datasource;
+        employeModel.setDatasource(datasource);
     }
 
     private Connection getConnection() throws SQLException {
@@ -40,39 +44,32 @@ public class EmployeModel implements IEmployeModel {
 
     @Override
     public void deleteEmploye(String username) throws ModelException {
-        EmployeModelRemote employeModel = lookupEmployeModelRemote();
-
-        employeModel.deleteEmployee(datasource,username);
+        employeModel.deleteEmployee(username);
     }
 
     @Override
     public void insertEmploye(Employe e) throws ModelException {
-        EmployeModelRemote employeModel = lookupEmployeModelRemote();
-        employeModel.insertEmployee(datasource,e);
+        employeModel.insertEmployee(e);
     }
 
     @Override
     public void updateUser(Employe e) throws ModelException {
-        EmployeModelRemote employeModel = lookupEmployeModelRemote();
-        employeModel.updateEmployee(datasource,e);
+        employeModel.updateEmployee(e);
     }
 
     @Override
     public Employe getEmployeByUserName(String username) throws ModelException {
-        EmployeModelRemote employeModel = lookupEmployeModelRemote();
-        return employeModel.getEmployeByUserName(datasource,username);
+        return employeModel.getEmployeByUserName(username);
     }
 
     @Override
     public String getUser(String username, String password) throws ModelException {
-        EmployeModelRemote employeModel = lookupEmployeModelRemote();
-        return employeModel.getUser(datasource,username, password);
+        return employeModel.getUser(username, password);
     }
 
     @Override
     public List getEmployes() throws ModelException {
-        EmployeModelRemote employeModel = lookupEmployeModelRemote();
-        return employeModel.getEmployes(datasource);
+        return employeModel.getEmployes();
     }
 
     private EmployeModelRemote lookupEmployeModelRemote() {
@@ -84,5 +81,4 @@ public class EmployeModel implements IEmployeModel {
             throw new RuntimeException(ne);
         }
     }
-
 }

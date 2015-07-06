@@ -1,4 +1,4 @@
-package com.myapp.struts.bean;
+package bean;
 
 public class Employe {
 

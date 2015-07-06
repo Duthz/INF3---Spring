@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE struts-config PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 1.3//EN"
+          "http://jakarta.apache.org/struts/dtds/struts-config_1_3.dtd">
+
+
+<struts-config>
+    <form-beans>
+    <form-bean name="loginForm" type="com.myapp.struts.formbean.LoginForm" />
+    <form-bean name="employeForm" type="com.myapp.struts.formbean.EmployeForm" />
+    </form-beans>
+    
+    <global-exceptions>
+    
+    </global-exceptions>
+
+    <global-forwards>
+        <forward name="login" path="tile.Login"/>
+    </global-forwards>
+
+    <action-mappings>
+        
+    <action path="/index" type="org.apache.struts.actions.ForwardAction"
+        parameter="tile.Login" />
+    
+    
+    <action path="/addemploye" type="org.apache.struts.actions.ForwardAction"
+        parameter="tile.AddEmployee" />
+    
+    <!-- com.myapp.struts.action.LoginAction-->
+    <action path="/Login"
+      type="org.springframework.web.struts.DelegatingActionProxy"
+      validate="true"
+      input="tile.Login"
+      name="loginForm"
+      scope="request" >
+      <forward name="success" path="/EmployeListe.do"/>
+    </action>
+
+    <!--com.myapp.struts.action.EmployeListeAction -->
+    <action path="/EmployeListe"
+      type="org.springframework.web.struts.DelegatingActionProxy"
+      scope="request" >
+      <forward name="success" path="tile.ListEmployee"/>
+    </action>
+
+    <!--com.myapp.struts.action.AddEmployeAction -->
+    <action path="/Add"
+      type="org.springframework.web.struts.DelegatingActionProxy"
+      name="employeForm"
+      scope="request"
+      input="tile.AddEmployee"
+      validate="true" >
+      <set-property property="cancellable" value="true"/>
+      <forward name="success" path="/EmployeListe.do"/>
+      <forward name="error" path="tile.AddEmployee"/>
+    </action>
+
+    <!--com.myapp.struts.action.GetEmployeAction -->
+    <action path="/Edit"
+      type="org.springframework.web.struts.DelegatingActionProxy"
+      name="employeForm"
+      scope="request"
+      validate="false" >
+      <forward name="success" path="tile.EditEmployee"/>
+      <forward name="error" path="/EmployeListe.do"/>
+    </action>
+
+    <!--com.myapp.struts.action.EditEmployeAction -->
+    <action path="/EditEmploye"
+      type="org.springframework.web.struts.DelegatingActionProxy"
+      name="employeForm"
+      scope="request"
+      input="tile.EditEmployee"
+      validate="true" >
+      <set-property property="cancellable" value="true"/>
+      <forward name="success" path="/EmployeListe.do"/>
+      <forward name="error" path="tile.EditEmployee"/>
+    </action>
+
+
+    <!-- com.myapp.struts.action.DeleteEmployeAction -->
+    <action path="/Delete"
+      type="org.springframework.web.struts.DelegatingActionProxy"
+      scope="request"
+      validate="false" >
+      <forward name="success" path="/EmployeListe.do"/>
+      <forward name="error" path="/EmployeListe.do"/>
+    </action>
+
+    </action-mappings>
+   
+   <!-- controller Tiles -->
+    <controller processorClass="org.apache.struts.tiles.TilesRequestProcessor"/>
+
+    <message-resources parameter="com/myapp/struts/ApplicationResources"/>    
+    
+
+    <!--PlugIn Tiles -->
+    <plug-in className="org.apache.struts.tiles.TilesPlugin" >
+        <set-property property="definitions-config" value="/WEB-INF/tiles-defs.xml" />      
+        <set-property property="moduleAware" value="true" />
+    </plug-in>
+    
+    <!-- PlugIn Spring -->
+    <plug-in className="org.springframework.web.struts.ContextLoaderPlugIn" >
+        <set-property property="contextConfigLocation" value="/WEB-INF/action-servlet.xml" />
+    </plug-in>
+  
+</struts-config>

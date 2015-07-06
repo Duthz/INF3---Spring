@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<!--
+  - DispatcherServlet application context for the Countries web tier.
+  -->
+
+<!--
+    Document   : action-servlet.xml
+    Created on : 17 mai 2006, 21:58
+    Author     : Souveyet
+    Description:
+        Purpose of the document follows.
+-->
+
+<beans> 
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" singleton="true">
+        <property name="driverClassName" value="org.apache.derby.jdbc.ClientDriver"/>
+        <property name="url" value="jdbc:derby://localhost:1527/sample" />
+        <property name="username" value="app" />
+        <property name="password" value="app" />
+        <property name="maxActive" value="10" />
+    </bean>
+    <bean id="dao" class="com.myapp.struts.model.EmployeModel" singleton="true">
+        <property name="datasource"> <ref bean="dataSource"/></property>
+    </bean>
+    <bean id="abstractAction" abstract="true">
+        <property name="model"> <ref bean="dao"/></property>
+    </bean>
+    <bean name="/Login" parent="abstractAction" class="com.myapp.struts.action.LoginAction"/>
+    <bean name="/EmployeListe" parent="abstractAction" class="com.myapp.struts.action.EmployeListeAction"/>
+    <bean name="/Edit" parent="abstractAction" class="com.myapp.struts.action.GetEmployeAction"/>
+    <bean name="/EditEmploye" parent="abstractAction" class="com.myapp.struts.action.EditEmployeAction"/>
+    <bean name="/Delete" parent="abstractAction" class="com.myapp.struts.action.DeleteEmployeAction"/>
+    <bean name="/Add" parent="abstractAction" class="com.myapp.struts.action.AddEmployeAction"/>
+    
+    
+</beans>

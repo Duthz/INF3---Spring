@@ -7,7 +7,7 @@
  * and open the template in the editor.
  */
 
-package com.myapp.struts.model;
+package ejb;
 
 /**
  *
